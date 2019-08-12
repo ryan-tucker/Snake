@@ -1,0 +1,46 @@
+Snake:
+    Every Frame:
+        poll for user input
+        update player pos (bound checking with walls and snake)
+        if (player.gets_food()) 
+            generate new food
+            grow tail by one
+
+
+How does move work?
+    .you only control the head node of the snake
+    then next node takes old position of head node, etc... until tail
+    .Since you can only grow by moving onto tile of food, we can generate new tail by setting it to old position of the current tail.
+
+Does C have a built in timer class?
+    .We need to restrict movement to only updates per seconds (or milliseconds)
+    .C has <timer.h>
+    .We need to have one timer control all logic in the game
+    .So we have it in the main loop and just pass dt to functions
+    .What happens if we pass dt into say update movement, and it's not a large enough delta?
+        .maybe have an accumulator inside each class? seems weird
+    .Or we just don't pass dt into functions, just only call functions once dt passes certain threshold in loop, then reset
+
+It seems nice to store the snake as a linked list (movement, adding new tail)
+    .How would we translate that linked list into points in an array?
+    .maybe just store coordinates in each Node obj
+    .To update, we just iterate through linked list ()
+        .if (input == up)
+            int old_x;
+            int old_y;
+            old_x = head.x;
+            old_y = head.y;
+            new_x;
+            new_y;
+            head.y += 1 (With error checking)
+            while (cur_node = node.next != NULL) {
+                new_x = old_x;
+                new_y = old_y;
+                old_x = cur_node.x;
+                old_x = cur_node.y;
+                cur_node.x = new_x;
+                cur_node.y = new_y;
+            }
+            if (picked_up_food) {
+                list.add(new node(old_x, old_y);
+            }
