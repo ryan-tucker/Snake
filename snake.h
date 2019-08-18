@@ -9,6 +9,7 @@
 typedef struct Snake {
     struct List *list;
     struct Coord *direction; // -1 <= x <= 1, -1 <= y <= 1
+    int times_eaten;
 } Snake;
 
 Snake *create_snake(int x, int y);

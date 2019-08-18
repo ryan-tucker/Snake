@@ -6,6 +6,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 World *create_world(int rows, int columns) {
     World *world = malloc(sizeof(World));
@@ -13,7 +14,7 @@ World *create_world(int rows, int columns) {
     world->columns = columns;
     world->tiles = create_tiles(rows, columns); 
     world->snake = create_snake(rows / 2, columns / 2);
-    world->tiles[world->snake->list->head->y][world->snake->list->head->x] = 1;
+    world->tiles[world->snake->list->head->y][world->snake->list->head->x] = SNAKE_ID;
     return world;
 }
 
@@ -22,6 +23,17 @@ void delete_world(World *world) {
     delete_snake(world->snake);
     free(world);
 }
+
+void reset_world(World *world) {
+    delete_tiles(&(world->tiles), world->rows, world->columns);
+    world->tiles = create_tiles(world->rows, world->columns);
+    delete_snake(world->snake);
+    world->snake = create_snake(world->rows / 2, world->columns / 2);
+    world->tiles[world->snake->list->head->y][world->snake->list->head->x] = SNAKE_ID;
+    create_food(world);
+    add_initial_tiles(world);
+}
+
 //Places food in a random index in world that is not currently occupied by the snake.
 void create_food(World *world) {
     int rows = world->rows;
@@ -58,5 +70,4 @@ void delete_tiles(int ***tiles, int rows, int columns) {
         free(arr[i]);
     }
     free(arr);
-
 }

@@ -7,17 +7,17 @@
 
 Snake *create_snake(int x, int y) {
     Snake *snake = malloc(sizeof(Snake));    
-    snake->list = malloc(sizeof(List));
+    snake->list = create_list(); 
     snake->direction = malloc(sizeof(Coord));
     snake->direction->x = 1;
     snake->direction->y = 0;
-    append(snake->list, x, y);
+    snake->times_eaten = 0;
+    push(snake->list, x, y);
     return snake;
 }
 
 void delete_snake(Snake *snake) {
-    delete_nodes(snake->list->head);
-    free(snake->list);
+    delete_list(snake->list);
     free(snake->direction);
     free(snake);
 }
@@ -73,10 +73,11 @@ void move_snake(World *world) {
             delete_tail(world->snake->list); //New position does not contain food, therefore delete tail
         } else { //New position contains food, don't delete tail, create new food
             create_food(world);
+            world->snake->times_eaten++;
         }
         world->tiles[new_y_pos][new_x_pos] = SNAKE_ID;
-    }
-    else {
-        //game_over (Should reset world and snake)
+    } else {
+        //do stuff with high score
+        reset_world(world);
     }
 }
