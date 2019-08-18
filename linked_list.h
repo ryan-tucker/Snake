@@ -13,12 +13,11 @@ typedef struct List {
     Node *tail;
 } List;
 
+List *create_list();
+void delete_list(List *list);
 void append(List *list, int x, int y);
-
 void push(List *list, int x, int y);
-
 void delete_nodes(Node *head_node);
-
 void delete_tail(List *list);
 
 #endif

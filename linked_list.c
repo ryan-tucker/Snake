@@ -2,6 +2,19 @@
 #include <stdio.h>
 #include "linked_list.h"
 /*Doubly Linked List implementation (for int) */
+List *create_list() {
+    List *temp = malloc(sizeof(List));
+    temp->head = NULL;
+    temp->tail = NULL;
+    return temp;
+}
+
+void delete_list(List *list) {
+    if (list != NULL && list->head != NULL) {
+        delete_nodes(list->head);
+        free(list);
+    }
+}
 
 void append(List *list, int x, int y) {
     Node *new_node = malloc(sizeof(Node));
