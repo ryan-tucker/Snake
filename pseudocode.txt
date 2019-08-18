@@ -44,3 +44,33 @@ It seems nice to store the snake as a linked list (movement, adding new tail)
             if (picked_up_food) {
                 list.add(new node(old_x, old_y);
             }
+
+high scores:
+    .5 high scores
+    .Have them all displayed to the right of the game
+        .So we have to read from the file when user starts the program
+    .Have counter that updates every time player picks up food
+    .After game over, if player has a high score, then ask for their name and write to the file.
+    .Might be easier to just have a struct called score in file_tools.h
+        struct score {
+            char *name;
+            int score;
+        }
+    .Then we can easily write it as a binary file instead.
+    .How to read from file?
+        .score array with 5 indexes (max number of high scores)
+        .read from binary file a max of five times using loop (checking for EOF in case there aren't five)
+    .Displaying should be simple using ncurses
+        .However, if we ever want to change the size of the game board then we would have to change where
+        we put scores too.
+        .Should display it based on size of board, not hardcode it in.
+    .Also actually need to implement a game over too.
+    .We should write to file as soon as user gets a high score in order to prevent losing data
+    .So if the user gets a high score->
+        .Prompt for name
+        .Create struct with name and score
+        .Add to scores[] (position based on score)
+        .open file
+        .Loop through scores, writing to file (not sure if there's an appened option, but we don't want to use it)
+        .close file
+    .Find out if there's a way to make it so the binary file created is read only for the user's OS
