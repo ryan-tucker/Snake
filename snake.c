@@ -53,7 +53,7 @@ void change_direction(Snake *player, char input) {
             break;
     }
 }
-
+/*This function is not called on user input, it is called whenever a certain time threshold in main has been passed */
 void move_snake(World *world) {
     int x_dir = world->snake->direction->x;
     int y_dir = world->snake->direction->y;
@@ -65,16 +65,16 @@ void move_snake(World *world) {
     int columns = world->columns;
     
     //Bounds checking and collision with self
-    if (new_x_pos < columns && new_x_pos >= 0 && new_y_pos < rows && new_y_pos >= 0 && world->tiles[new_y_pos][new_x_pos] != 1 ) {
+    if (new_x_pos < columns && new_x_pos >= 0 && new_y_pos < rows && new_y_pos >= 0 && world->tiles[new_y_pos][new_x_pos] != SNAKE_ID ) {
         push(world->snake->list, new_x_pos, new_y_pos);
-        if (world->tiles[new_y_pos][new_x_pos] != 2) {
+        if (world->tiles[new_y_pos][new_x_pos] != FOOD_ID) {
             update_tail(world->snake); //Graphical update in logic :(
-            world->tiles[world->snake->list->tail->y][world->snake->list->tail->x] = 0;
+            world->tiles[world->snake->list->tail->y][world->snake->list->tail->x] = BACKGROUND_ID;
             delete_tail(world->snake->list); //New position does not contain food, therefore delete tail
         } else { //New position contains food, don't delete tail, create new food
             create_food(world);
         }
-        world->tiles[new_y_pos][new_x_pos] = 1;
+        world->tiles[new_y_pos][new_x_pos] = SNAKE_ID;
     }
     else {
         //game_over (Should reset world and snake)

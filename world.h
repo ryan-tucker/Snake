@@ -1,5 +1,8 @@
 #ifndef WORLD
 #define WORLD
+#define BACKGROUND_ID 0
+#define SNAKE_ID 1
+#define FOOD_ID 2
 
 typedef struct World {
     int **tiles;
