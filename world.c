@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ncurses.h>
 
 World *create_world(int rows, int columns) {
     World *world = malloc(sizeof(World));
@@ -31,7 +32,6 @@ void reset_world(World *world) {
     world->snake = create_snake(world->rows / 2, world->columns / 2);
     world->tiles[world->snake->list->head->y][world->snake->list->head->x] = SNAKE_ID;
     create_food(world);
-    add_initial_tiles(world);
 }
 
 //Places food in a random index in world that is not currently occupied by the snake.

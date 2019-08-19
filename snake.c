@@ -54,7 +54,7 @@ void change_direction(Snake *player, char input) {
     }
 }
 /*This function is not called on user input, it is called whenever a certain time threshold in main has been passed */
-void move_snake(World *world) {
+int move_snake(World *world) {
     int x_dir = world->snake->direction->x;
     int y_dir = world->snake->direction->y;
     int x_pos = world->snake->list->head->x;
@@ -74,10 +74,13 @@ void move_snake(World *world) {
         } else { //New position contains food, don't delete tail, create new food
             create_food(world);
             world->snake->times_eaten++;
+            display_current_score(world);
         }
         world->tiles[new_y_pos][new_x_pos] = SNAKE_ID;
+        return 0;
     } else {
         //do stuff with high score
         reset_world(world);
+        return 1;
     }
 }

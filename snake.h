@@ -18,7 +18,7 @@ void delete_snake(Snake *snake);
 
 void change_direction(Snake *player, char input);
 
-void move_snake(World *world);
+int move_snake(World *world);
 
 #endif
 
