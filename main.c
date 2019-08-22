@@ -43,10 +43,6 @@ int main(int argc, char *argv[]) {
             elapsed_time = 0;
         }
     }
-    for (int i = 0; i < score.num_records; i ++) {
-        printf("%s %d\n", score.names[i], score.scores[i]);
-    }
-    write_to_file("highscores.bin", score);
     delete_world(world); 
     endwin();
     return 0;
