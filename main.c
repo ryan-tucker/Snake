@@ -1,10 +1,12 @@
 #include <ncurses.h>
 #include "snake.h"
+#include "score.h"
 #include "world.h"
 #include "display.h"
 #include "file_tools.h"
 #include <time.h>
 #include <stdlib.h>
+#include <string.h>
 
 void ncurses_init();
 
@@ -13,7 +15,6 @@ int main(int argc, char *argv[]) {
     World *world = create_world(25,25);
     Score score;
     read_from_file("highscores.bin",&score);
-    score.num_records = 5;
     char input = 0;
     clock_t start = clock();
     clock_t end_time = clock();
@@ -28,6 +29,7 @@ int main(int argc, char *argv[]) {
        elapsed_time += (end_time - start); 
        if (elapsed_time > 1000000000) { //Nasty trial and error number. Only tested on one machine.
             if (move_snake(world)) {
+                add_score(&score, "Ryan", world->snake->times_eaten);
                 display_new_screen(world,score);
             }
             update_snake(world->snake);
@@ -38,6 +40,10 @@ int main(int argc, char *argv[]) {
     }
     delete_world(world); 
     endwin();
+    for (int i = 0; i < 5; i ++) {
+        printf("%s %d\n", score.names[i], score.scores[i]);
+    }
+    printf("%d\n", score.num_records);
     return 0;
 }
 
