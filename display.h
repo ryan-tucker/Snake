@@ -7,6 +7,7 @@
 #define SNAKE_COLOR_PAIR 1
 #define BACKGROUND_COLOR_PAIR 2
 #define FOOD_COLOR_PAIR 3
+#define TEXT_COLOR_PAIR 4
 #define SNAKE_SYMBOL 'X'
 #define BACKGROUND_SYMBOL '*'
 #define FOOD_SYMBOL '$'

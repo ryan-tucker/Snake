@@ -12,7 +12,7 @@ void init_colors() {
     init_pair(FOOD_COLOR_PAIR, COLOR_GREEN, COLOR_BLACK);
     init_pair(BACKGROUND_COLOR_PAIR, COLOR_RED, COLOR_BLACK);
     init_pair(SNAKE_COLOR_PAIR, COLOR_BLUE, COLOR_BLACK);
-    init_pair(4, COLOR_WHITE, COLOR_BLACK);
+    init_pair(TEXT_COLOR_PAIR, COLOR_WHITE, COLOR_BLACK);
 }
 //This function needs to be called in Snake.c 
 void update_snake(Snake *snake) {
@@ -40,20 +40,20 @@ void display_highscores(World *world, Score score) {
 
     int x = width + 5;
     int y = 0;
-    attron(COLOR_PAIR(4));
+    attron(COLOR_PAIR(TEXT_COLOR_PAIR));
     mvprintw(y++,x, "High Scores");
     for (int i = 0; i < score.num_records; i ++) {
         mvprintw(y,x,"%s : %d", score.names[i], score.scores[i]);
         y += 1;
     }
-    attroff(COLOR_PAIR(4));
+    attroff(COLOR_PAIR(TEXT_COLOR_PAIR));
 }
 
 void display_current_score(World *world) {
     int score = world->snake->times_eaten;
-    attron(COLOR_PAIR(4));
+    attron(COLOR_PAIR(TEXT_COLOR_PAIR));
     mvprintw(world->rows / 2,world->columns+1,"%d",score);
-    attroff(COLOR_PAIR(4));
+    attroff(COLOR_PAIR(TEXT_COLOR_PAIR));
 }
 
 //Initialize starting world graphics

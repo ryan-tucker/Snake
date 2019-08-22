@@ -9,22 +9,24 @@
 #include <string.h>
 
 void ncurses_init();
+void get_user_name(World world, char buffer[MAX_NAME_LENGTH]);
 
 int main(int argc, char *argv[]) {
+    int file_status;
+    char input = 0;
+    clock_t start, end_time;
+    double elapsed_time = 0;
+    char name[MAX_NAME_LENGTH];
     ncurses_init();
     World *world = create_world(25,25);
     Score score;
-    int file_status;
     file_status = read_from_file("highscores.bin",&score);
     if(file_status) {
         score.num_records = 0;
     }
-    char input = 0;
-    clock_t start = clock();
-    clock_t end_time = clock();
-    double elapsed_time = 0;
     create_food(world);
     display_new_screen(world, score);
+    start = end_time = clock();
     refresh();
     while(input != 'q') { 
        input = getch(); 
@@ -33,7 +35,8 @@ int main(int argc, char *argv[]) {
        elapsed_time += (end_time - start); 
        if (elapsed_time > 1000000000) { //Nasty trial and error number. Only tested on one machine.
             if (move_snake(world)) {
-                add_score(&score, "Ryan", world->snake->times_eaten);
+                get_user_name(*world, name);
+                add_score(&score, name, world->snake->times_eaten);
                 reset_world(world);
                 display_new_screen(world,score);
             }
@@ -55,9 +58,21 @@ void ncurses_init() {
     noecho();
     cbreak();
     curs_set(0);
-    int row, column;
-    getmaxyx(stdscr, row, column);
-
     start_color();
     init_colors();
+}
+
+void get_user_name(World world,char buffer[MAX_NAME_LENGTH]) {
+    static char *prompt = "Please Enter Your Name:";
+    nodelay(stdscr, false);
+    echo();
+    curs_set(1);
+    attron(COLOR_PAIR(TEXT_COLOR_PAIR));
+    mvprintw(world.rows / 2 + 1, world.columns + 1,"%s", prompt);
+    move(world.rows / 2 + 2, world.columns + 1);
+    getstr(buffer);
+    nodelay(stdscr, true);
+    noecho();
+    curs_set(0);
+    attroff(COLOR_PAIR(TEXT_COLOR_PAIR));
 }
