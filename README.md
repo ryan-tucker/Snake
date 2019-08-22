@@ -1,4 +1,5 @@
 # Snake
+![Screenshot](snake_image.jpg)
 Snake implementation in C using ncurses
 
 I would have liked to decouple the graphical code from the logic, however there is only two instances where graphics functions
