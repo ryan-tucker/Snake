@@ -14,7 +14,11 @@ int main(int argc, char *argv[]) {
     ncurses_init();
     World *world = create_world(25,25);
     Score score;
-    read_from_file("highscores.bin",&score);
+    int file_status;
+    file_status = read_from_file("highscores.bin",&score);
+    if(file_status) {
+        score.num_records = 0;
+    }
     char input = 0;
     clock_t start = clock();
     clock_t end_time = clock();
@@ -23,13 +27,14 @@ int main(int argc, char *argv[]) {
     display_new_screen(world, score);
     refresh();
     while(input != 'q') { 
-       input = getch();
+       input = getch(); 
        change_direction(world->snake, input);
        end_time = clock();
        elapsed_time += (end_time - start); 
        if (elapsed_time > 1000000000) { //Nasty trial and error number. Only tested on one machine.
             if (move_snake(world)) {
                 add_score(&score, "Ryan", world->snake->times_eaten);
+                reset_world(world);
                 display_new_screen(world,score);
             }
             update_snake(world->snake);
@@ -38,12 +43,12 @@ int main(int argc, char *argv[]) {
             elapsed_time = 0;
         }
     }
-    delete_world(world); 
-    endwin();
-    for (int i = 0; i < 5; i ++) {
+    for (int i = 0; i < score.num_records; i ++) {
         printf("%s %d\n", score.names[i], score.scores[i]);
     }
-    printf("%d\n", score.num_records);
+    write_to_file("highscores.bin", score);
+    delete_world(world); 
+    endwin();
     return 0;
 }
 

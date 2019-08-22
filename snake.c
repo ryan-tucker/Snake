@@ -79,8 +79,6 @@ int move_snake(World *world) {
         world->tiles[new_y_pos][new_x_pos] = SNAKE_ID;
         return 0;
     } else {
-        //do stuff with high score
-        reset_world(world);
         return 1;
     }
 }

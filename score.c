@@ -18,11 +18,12 @@ void add_score(Score *old_scores, char *new_name, int new_score) {
     shift_scores(old_scores, new_index);
     strcpy(old_scores->names[new_index], new_name);
     old_scores->scores[new_index] = new_score;
-    write_to_file("highscores.bin", *old_scores);
+    if (num_records < MAX_SCORES) {
+        old_scores->num_records ++;
+    }
 }
 static bool check_score(Score *old_scores, int new_score) {
     if (old_scores->num_records < MAX_SCORES && new_score > 0) {
-        old_scores->num_records ++;
         return true;
     } else {
         return old_scores->scores[MAX_SCORES-1] < new_score;
@@ -37,6 +38,9 @@ static int find_index_for_score(Score *old_scores, int new_score) {
     return index;
 }
 
+/*This function makes me want to convert the score struct to use
+ * linked lists instead of arrays. I'm not sure how well they would
+ * work with binary files, though.*/
 static void shift_scores(Score *old_scores, int new_index) {
     if (new_index == old_scores->num_records-1) {
         return;
