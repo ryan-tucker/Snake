@@ -35,8 +35,10 @@ int main(int argc, char *argv[]) {
        elapsed_time += (end_time - start); 
        if (elapsed_time > 1000000000) { //Nasty trial and error number. Only tested on one machine.
             if (move_snake(world)) {
-                get_user_name(*world, name);
-                add_score(&score, name, world->snake->times_eaten);
+                if (check_score(score, world->snake->times_eaten)) {
+                    get_user_name(*world, name);
+                    add_score(&score, name, world->snake->times_eaten);
+                }
                 reset_world(world);
                 display_new_screen(world,score);
             }
